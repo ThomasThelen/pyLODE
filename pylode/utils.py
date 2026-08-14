@@ -1,5 +1,5 @@
 import logging
-import pickle
+import pickle  # nosec B403
 import re
 import shutil
 from collections import defaultdict
@@ -327,7 +327,8 @@ def load_background_onts():
     if Path(RDF_FOLDER / "refs.pickle").is_file():
         logging.info("Loading background ontologies from a pickle file")
         with open(RDF_FOLDER / "refs.pickle", "rb") as f:
-            return pickle.load(f)
+            # pyLODE's own bundled cache, not untrusted data
+            return pickle.load(f)  # nosec B301
     else:
         logging.info("Loading background ontologies from RDF files")
         g = _parse_background_onts()
@@ -357,7 +358,8 @@ def load_background_onts_titles(ont: Graph):
 
     if Path(RDF_FOLDER / "refs_titles.pickle").is_file():
         with open(RDF_FOLDER / "refs_titles.pickle", "rb") as f:
-            return pickle.load(f)
+            # pyLODE's own bundled cache, not untrusted data
+            return pickle.load(f)  # nosec B301
     else:
         t = _get_background_ontology_titles(ont)
         _pickle_background_onts_titles(t)
